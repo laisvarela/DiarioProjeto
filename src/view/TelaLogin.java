@@ -4,11 +4,13 @@
  */
 package view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Jao
  */
-public class TelaLogin extends javax.swing.JFrame {
+public class TelaLogin extends javax.swing.JInternalFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaLogin.class.getName());
 
@@ -17,6 +19,42 @@ public class TelaLogin extends javax.swing.JFrame {
      */
     public TelaLogin() {
         initComponents();
+        lblCodigoAdm.setVisible(false);
+        txtFieldCodigoAdm.setVisible(false);
+    }
+     private void logar() {
+        String usuario = lblUsuario.getText();
+        String senha = new String(txtSenha.getPassword());
+        String codigoAdm = lblCodigoAdm.getText();
+        
+        // --- LÓGICA DO CONTROLLER AQUI ---
+        // Chamar o controller para validar o login.
+        // O controller deve retornar se o login foi sucesso, se o usuário é ADM
+        // e o nome de apelido dele.
+        
+        // Exemplo de como a lógica funcionaria:
+        // LoginResult resultado = controller.validarLogin(usuario, senha, codigoAdm);
+        
+        // if (resultado.isSucesso()) {
+        //    Main telaPrincipal = (Main) this.getDesktopPane().getTopLevelAncestor();
+        //    telaPrincipal.configurarMenuLogado(resultado.getApelido(), resultado.isAdm());
+        //    this.dispose(); // Fecha a tela de login
+        // } else {
+        //    JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+        // }
+
+        // Simulação para teste:
+        if (usuario.equals("adm") && senha.equals("adm")) {
+             Main telaPrincipal = (Main) this.getDesktopPane().getTopLevelAncestor();
+             telaPrincipal.configurarMenuLogado("Administrador", true);
+             this.dispose();
+        } else if (usuario.equals("user") && senha.equals("user")) {
+             Main telaPrincipal = (Main) this.getDesktopPane().getTopLevelAncestor();
+             telaPrincipal.configurarMenuLogado("Usuário Comum", false);
+             this.dispose();
+        } else {
+             JOptionPane.showMessageDialog(this, "Usuário ou senha inválidos.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -28,48 +66,152 @@ public class TelaLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblUsuario = new javax.swing.JLabel();
+        lblSenha = new javax.swing.JLabel();
+        txtUsuario = new javax.swing.JTextField();
+        txtSenha = new javax.swing.JPasswordField();
+        chkAdm = new javax.swing.JCheckBox();
+        lblCodigoAdm = new javax.swing.JLabel();
+        txtFieldCodigoAdm = new javax.swing.JTextField();
+        btnEntrar = new javax.swing.JButton();
+        btnCadastrar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Diário");
+        setTitle("Login");
+        setBackground(new java.awt.Color(30, 30, 30));
+
+        lblUsuario.setText("Nome de Usuário ou E-mail: ");
+
+        lblSenha.setText("Senha:");
+
+        txtSenha.setText("jPasswordField1");
+        txtSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSenhaActionPerformed(evt);
+            }
+        });
+
+        chkAdm.setText("Entrar como Administrador");
+        chkAdm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkAdmActionPerformed(evt);
+            }
+        });
+
+        lblCodigoAdm.setText("Código de Administrador");
+
+        btnEntrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEntrar.setText("Entrar");
+        btnEntrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntrarActionPerformed(evt);
+            }
+        });
+
+        btnCadastrar.setText("Não tenho conta, quero me cadastrar");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUsuario)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblSenha)
+                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(chkAdm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblCodigoAdm)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(txtFieldCodigoAdm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(186, 186, 186)
+                        .addComponent(btnEntrar)))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(lblCodigoAdm)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chkAdm)
+                    .addComponent(txtFieldCodigoAdm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
+                .addComponent(lblUsuario)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSenha)
+                .addGap(3, 3, 3)
+                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEntrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void chkAdmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAdmActionPerformed
+         // Mostra ou esconde o campo de código de ADM
+        boolean selecionado = chkAdm.isSelected();
+        lblCodigoAdm.setVisible(selecionado);
+        txtFieldCodigoAdm.setVisible(selecionado);
+    }//GEN-LAST:event_chkAdmActionPerformed
+
+    private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
+        logar();
+    }//GEN-LAST:event_btnEntrarActionPerformed
+
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+         // Abre a tela de cadastro e fecha a de login
+        Main telaPrincipal = (Main) this.getDesktopPane().getTopLevelAncestor();
+        telaPrincipal.abrirTelaCadastro();
+        this.dispose();
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSenhaActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new TelaLogin().setVisible(true));
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnEntrar;
+    private javax.swing.JCheckBox chkAdm;
+    private javax.swing.JLabel lblCodigoAdm;
+    private javax.swing.JLabel lblSenha;
+    private javax.swing.JLabel lblUsuario;
+    private javax.swing.JTextField txtFieldCodigoAdm;
+    private javax.swing.JPasswordField txtSenha;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

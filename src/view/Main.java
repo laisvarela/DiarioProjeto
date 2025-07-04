@@ -3,7 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/MDIApplication.java to edit this template
  */
 package view;
-
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 /**
  *
  * @author LaisV
@@ -15,7 +17,153 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        // Centraliza a janela principal
+        setLocationRelativeTo(null); 
+        // Inicia com o menu para usuário deslogado
+        configurarMenuDeslogado();
     }
+    /**
+     * Configura a barra de menu para quando o usuário NÃO está logado.
+     */
+    public void configurarMenuDeslogado() {
+        menuBar.removeAll(); // Limpa todos os menus existentes
+
+        JMenu sistemaMenu = new JMenu("Sistema");
+
+        JMenuItem loginItem = new JMenuItem("Login");
+        loginItem.addActionListener(e -> abrirTelaLogin());
+        sistemaMenu.add(loginItem);
+
+        JMenuItem cadastroItem = new JMenuItem("Cadastro");
+        cadastroItem.addActionListener(e -> abrirTelaCadastro());
+        sistemaMenu.add(cadastroItem);
+        
+        sistemaMenu.addSeparator(); // Adiciona uma linha separadora
+
+        JMenuItem sairItem = new JMenuItem("Sair");
+        sairItem.addActionListener(e -> System.exit(0));
+        sistemaMenu.add(sairItem);
+
+        menuBar.add(sistemaMenu);
+        
+        // Redesenha a barra de menus
+        revalidate();
+        repaint();
+    }
+
+    /**
+     * Configura a barra de menu para quando o usuário FAZ o login.
+     * @param nomeApelido O nome de apelido do usuário para exibir no menu.
+     * @param isAdm       True se o usuário for administrador, para exibir os menus de ADM.
+     */
+    public void configurarMenuLogado(String nomeApelido, boolean isAdm) {
+        menuBar.removeAll();
+
+        JMenu usuarioMenu = new JMenu("Olá, " + nomeApelido);
+
+        JMenuItem diarioItem = new JMenuItem("Meu Diário");
+        diarioItem.addActionListener(e -> abrirTelaDiario());
+        usuarioMenu.add(diarioItem);
+        
+        usuarioMenu.addSeparator();
+
+        JMenuItem configItem = new JMenuItem("Configurações da Conta");
+        configItem.addActionListener(e -> abrirTelaCadastroParaEdicao());
+        usuarioMenu.add(configItem);
+        
+        JMenuItem deletarContaItem = new JMenuItem("Deletar Minha Conta");
+        deletarContaItem.addActionListener(e -> deletarConta());
+        usuarioMenu.add(deletarContaItem);
+
+        // Se for administrador, adiciona o menu de administração
+        if (isAdm) {
+            JMenu admMenu = new JMenu("Administração");
+            JMenuItem usuariosItem = new JMenuItem("Gerenciar Usuários");
+            usuariosItem.addActionListener(e -> abrirTelaADMUsuarios());
+            admMenu.add(usuariosItem);
+
+            JMenuItem tagsItem = new JMenuItem("Gerenciar Tags");
+            tagsItem.addActionListener(e -> abrirTelaADMTags());
+            admMenu.add(tagsItem);
+            
+            menuBar.add(admMenu);
+        }
+        
+        menuBar.add(usuarioMenu);
+        
+        JMenu sistemaMenu = new JMenu("Sistema");
+        JMenuItem logoutItem = new JMenuItem("Logout");
+        // Ao clicar em logout, volta para o menu deslogado
+        logoutItem.addActionListener(e -> {
+            desktopPane.removeAll(); // Fecha todas as janelas internas
+            desktopPane.repaint();
+            configurarMenuDeslogado();
+        });
+        sistemaMenu.add(logoutItem);
+        
+        menuBar.add(sistemaMenu);
+
+        // Redesenha a barra de menus
+        revalidate();
+        repaint();
+    }
+    
+    // MÉTODOS PARA ABRIR AS TELAS INTERNAS
+
+    private void abrirTelaLogin() {
+        TelaLogin tela = new TelaLogin();
+        desktopPane.add(tela);
+        tela.setVisible(true);
+    }
+
+    private void abrirTelaCadastro() {
+        TelaCadastro tela = new TelaCadastro(false); 
+        desktopPane.add(tela);
+        tela.setVisible(true);
+    }
+    
+    private void abrirTelaDiario() {
+        TelaDiario tela = new TelaDiario();
+        desktopPane.add(tela);
+        tela.setVisible(true);
+    }
+    
+    private void abrirTelaCadastroParaEdicao() {
+        TelaCadastro tela = new TelaCadastro(true); 
+        //   chamar um método no controller para pegar os dados do usuário logado
+        // e então preencher a tela.
+        desktopPane.add(tela);
+        tela.setVisible(true);
+    }
+    
+    private void abrirTelaADMUsuarios() {
+        TelaADMUsuarios tela = new TelaADMUsuarios();
+        desktopPane.add(tela);
+        tela.setVisible(true);
+    }
+    
+    private void abrirTelaADMTags() {
+        TelaADMTags tela = new TelaADMTags();
+        desktopPane.add(tela);
+        tela.setVisible(true);
+    }
+
+    private void deletarConta() {
+        int resposta = JOptionPane.showConfirmDialog(
+            this,
+            "Tem certeza que deseja deletar sua conta? Esta ação é permanente.",
+            "Confirmar Exclusão de Conta",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+        if (resposta == JOptionPane.YES_OPTION) {
+            // Chamar o controller para executar a exclusão
+            
+            JOptionPane.showMessageDialog(this, "Conta deletada com sucesso.");
+            configurarMenuDeslogado();
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -177,5 +325,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
-
+   private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JMenuBar menuBar;
 }
